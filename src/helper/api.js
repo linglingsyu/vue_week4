@@ -14,5 +14,7 @@ if (token) {
   config.headers.Authorization = token
 }
 
+const api_path = 'elsasyu'
+
 const API = axios.create(config)
-export { API }
+export { API, api_path }

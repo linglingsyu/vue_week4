@@ -1,7 +1,5 @@
-# Vue 3 + Vite
+# Memo
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+- 登入成功後進入產品列表頁,將 token 刪除後重新登入,登入成功但 checkLogin 會錯誤？
+- cath錯誤處理,throw 跟 alert 差別？ throw用法
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
