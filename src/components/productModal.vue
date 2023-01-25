@@ -39,6 +39,14 @@
                     placeholder="請輸入圖片連結"
                     v-model.trim="product.image"
                   />
+                  <div class="mb-3">
+                    <input
+                      type="file"
+                      name="file-to-upload"
+                      @change="fileChange"
+                    />
+                    <button type="button" @click="uploadImage">submit</button>
+                  </div>
                 </div>
                 <img class="img-fluid" :src="product.image" alt="主要圖片" />
               </div>
@@ -217,6 +225,7 @@ export default {
   },
   data() {
     return {
+      file: null,
       action: null,
       product: {
         title: '',
@@ -236,7 +245,7 @@ export default {
   },
   props: ['productData'],
   methods: {
-    ...mapActions(productStore, ['updateProduct']),
+    ...mapActions(productStore, ['updateProduct', 'upload']),
     openModal(action) {
       this.action = action
       if (action === 'add') {
@@ -262,6 +271,17 @@ export default {
     async submitHandler() {
       const res = await this.updateProduct(this.action, this.product)
       if (res.status === 200) this.productModal.hide()
+    },
+    fileChange(e) {
+      this.file = e.target.files[0]
+    },
+    async uploadImage() {
+      const formData = new FormData()
+      formData.append('file-to-upload', this.file)
+      const res = await this.upload(formData)
+      if (res.status === 200) {
+        this.product.imageUrl = res.data.imageUrl
+      }
     },
   },
   watch: {

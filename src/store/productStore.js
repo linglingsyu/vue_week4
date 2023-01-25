@@ -71,5 +71,19 @@ export default defineStore('productStore', {
         alert('error!')
       }
     },
+    async upload(formdata) {
+      try {
+        const path = `/api/${api_path}/admin/upload`
+        const res = await API.post(path, formdata, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        return res
+      } catch (error) {
+        console.dir(error)
+        alert('upload fail!')
+      }
+    },
   },
 })
