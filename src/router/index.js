@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import loginStore from '@/store/loginStore.js'
 import Home from '@/views/productView.vue'
 import Login from '@/views/LoginView.vue'
-const history = createWebHistory()
+const history = createWebHistory('/vue_week4')
 const routes = [
   {
     path: '/',
