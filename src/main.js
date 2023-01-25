@@ -11,6 +11,4 @@ import 'bootstrap' // 從nodeModule中載入Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css' // Import css file
 // import './style.css'
 
-const app = createApp(App)
-app.use(router).use(pinia)
-app.mount('#app')
+createApp(App).use(router).use(pinia).mount('#app')

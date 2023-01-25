@@ -4,7 +4,7 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  baseUrl: 'vue_week4',
+  // base: '/vue_week4/',
   plugins: [vue()],
   resolve: {
     alias: {

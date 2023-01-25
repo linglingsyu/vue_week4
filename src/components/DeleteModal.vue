@@ -1,9 +1,5 @@
 <template>
-  <button type="button" class="btn btn-danger btn-sm" @click="openModal">
-    刪除
-  </button>
   <div
-    id="delProductModal"
     ref="delProductModal"
     class="modal fade"
     tabindex="-1"
@@ -46,6 +42,8 @@
 </template>
 
 <script>
+import { mapActions } from 'pinia'
+import productStore from '@/store/productStore.js'
 import { Modal } from 'bootstrap'
 export default {
   name: 'delProductModal',
@@ -59,8 +57,13 @@ export default {
   },
   props: ['productId'],
   methods: {
+    ...mapActions(productStore, ['delProduct']),
     openModal() {
       this.Modal.show()
+    },
+    async submitHandler() {
+      const res = await this.delProduct(this.productId)
+      if (res.status === 200) this.Modal.hide()
     },
   },
 }

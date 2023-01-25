@@ -1,20 +1,11 @@
 <template>
-  <button
-    type="button"
-    class="btn btn-primary"
-    @click="openModal"
-    v-if="action === 'add'"
-  >
-    建立新的產品
-  </button>
-  <button
+  <!-- <button
     type="button"
     class="btn btn-primary btn-sm me-3"
     @click="openModal(productData)"
-    v-else-if="action === 'edit'"
   >
     編輯
-  </button>
+  </button> -->
   <div
     id="productModal"
     ref="productModal"
@@ -226,6 +217,7 @@ export default {
   },
   data() {
     return {
+      action: null,
       product: {
         title: '',
         category: '',
@@ -242,11 +234,12 @@ export default {
       productModal: null,
     }
   },
-  props: ['productData', 'action'],
+  props: ['productData'],
   methods: {
-    ...mapActions(productStore,['updateProduct']),
-    openModal() {
-      if (this.action === 'add') {
+    ...mapActions(productStore, ['updateProduct']),
+    openModal(action) {
+      this.action = action
+      if (action === 'add') {
         this.product = {
           title: '',
           category: '',
@@ -260,19 +253,19 @@ export default {
           imagesUrl: [],
         }
         this.modalTitle = '新增產品'
-      } else if (this.action === 'edit') {
+      } else if (action === 'edit') {
+        this.product = { ...this.productData }
         this.modalTitle = '編輯產品'
       }
       this.productModal.show()
     },
-    async submitHandler(){
-     const res = await this.updateProduct(this.action,this.product)
-     if(res.status === 200) this.productModal.hide()
-    }
+    async submitHandler() {
+      const res = await this.updateProduct(this.action, this.product)
+      if (res.status === 200) this.productModal.hide()
+    },
   },
   watch: {
     productData(newVal, oldVal) {
-      console.log(newVal)
       this.product = newVal
       if (!this.product.imagesUrl) {
         this.product.imagesUrl = []

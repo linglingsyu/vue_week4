@@ -8,6 +8,20 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+    redirect: '/product/1',
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/product',
+    name: 'product',
+    component: Home,
+    meta: { requiresAuth: true },
+    redirect: '/product/1',
+  },
+  {
+    path: '/product/:page',
+    name: 'productPage',
+    component: Home,
     meta: { requiresAuth: true },
   },
   {
