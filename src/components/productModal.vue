@@ -31,25 +31,42 @@
           <div class="row">
             <div class="col-sm-4">
               <div class="mb-2">
+                <label for="imageUrl" class="form-label">上傳主要圖片</label>
+                <div class="mb-3 d-flex">
+                  <input
+                    type="file"
+                    name="file-to-upload"
+                    class="form-control"
+                    accept="image/*"
+                    ref="uploadFile"
+                    @change="fileChange"
+                  />
+                  <button
+                    type="button"
+                    class="ms-2 btn btn-primary"
+                    @click="uploadImage"
+                  >
+                    upload
+                  </button>
+                </div>
                 <div class="mb-3">
-                  <label for="imageUrl" class="form-label">主要圖片網址</label>
                   <input
                     type="text"
                     class="form-control"
                     placeholder="請輸入圖片連結"
                     v-model.trim="product.image"
                   />
-                  <div class="mb-3">
-                    <input
-                      type="file"
-                      name="file-to-upload"
-                      @change="fileChange"
-                    />
-                    <button type="button" @click="uploadImage">submit</button>
-                  </div>
                 </div>
-                <img class="img-fluid" :src="product.image" alt="主要圖片" />
+                <img
+                  v-if="product.image"
+                  class="img-fluid"
+                  :src="product.image"
+                  alt="主要圖片"
+                />
               </div>
+
+              <hr />
+              <label class="form-label">輸入副圖圖片網址</label>
               <div class="mb-2">
                 <div
                   class="mb-3"
@@ -109,7 +126,7 @@
               </div>
 
               <div class="row">
-                <div class="mb-3 col-md-6">
+                <div class="mb-3 col-md-4">
                   <label for="category" class="form-label">分類</label>
                   <input
                     id="category"
@@ -119,7 +136,7 @@
                     v-model.trim="product.category"
                   />
                 </div>
-                <div class="mb-3 col-md-6">
+                <div class="mb-3 col-md-4">
                   <label for="price" class="form-label">單位</label>
                   <input
                     id="unit"
@@ -127,6 +144,17 @@
                     class="form-control"
                     placeholder="請輸入單位"
                     v-model.trim="product.unit"
+                  />
+                </div>
+                <div class="mb-3 col-md-4">
+                  <label for="stock" class="form-label">庫存</label>
+                  <input
+                    id="stock"
+                    type="number"
+                    class="form-control"
+                    placeholder="請輸入庫存"
+                    min="0"
+                    v-model.number="product.stock"
                   />
                 </div>
               </div>
@@ -156,7 +184,6 @@
                 </div>
               </div>
               <hr />
-
               <div class="mb-3">
                 <label for="description" class="form-label">產品描述</label>
                 <textarea
@@ -228,6 +255,7 @@ export default {
       file: null,
       action: null,
       product: {
+        stock: '',
         title: '',
         category: '',
         origin_price: '',
@@ -236,7 +264,7 @@ export default {
         description: '',
         content: '',
         is_enabled: 1,
-        imageUrl: '',
+        image: '',
         imagesUrl: [],
       },
       modalTitle: '',
@@ -247,9 +275,12 @@ export default {
   methods: {
     ...mapActions(productStore, ['updateProduct', 'upload']),
     openModal(action) {
+      this.file = null
+      this.$refs.uploadFile.value = ''
       this.action = action
       if (action === 'add') {
         this.product = {
+          stock: '',
           title: '',
           category: '',
           origin_price: '',
@@ -270,17 +301,22 @@ export default {
     },
     async submitHandler() {
       const res = await this.updateProduct(this.action, this.product)
-      if (res.status === 200) this.productModal.hide()
+      if (res.status === 200) {
+        this.productModal.hide()
+      }
     },
     fileChange(e) {
       this.file = e.target.files[0]
     },
     async uploadImage() {
+      if (!this.file) return false
       const formData = new FormData()
       formData.append('file-to-upload', this.file)
       const res = await this.upload(formData)
-      if (res.status === 200) {
-        this.product.imageUrl = res.data.imageUrl
+      if (res.data.success) {
+        this.product.image = res.data.imageUrl
+      } else {
+        alert(res.data.message)
       }
     },
   },

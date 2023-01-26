@@ -10,6 +10,7 @@
         <tr>
           <th>分類</th>
           <th>產品名稱</th>
+          <th>庫存量</th>
           <th>原價</th>
           <th>售價</th>
           <th>是否啟用</th>
@@ -20,6 +21,7 @@
         <tr v-for="product in products.list" :key="product.id">
           <td>{{ product.category }}</td>
           <td class="text-start">{{ product.title }}</td>
+          <td>{{ product.stock }}</td>
           <td>{{ product.origin_price }}</td>
           <td>{{ product.price }}</td>
           <td :class="[product.is_enabled ? 'text-success' : 'text-danger']">

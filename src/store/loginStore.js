@@ -10,6 +10,7 @@ export default defineStore('loginStore', {
   actions: {
     async login(data) {
       try {
+        console.log(data)
         const res = await API.post('admin/signin', data)
         const { token, expired } = res.data
         await this.setCookie(token, expired)
@@ -24,8 +25,8 @@ export default defineStore('loginStore', {
     },
     async checkLogin() {
       try {
-        await API.post('api/user/check')
-        return true
+        const res = await API.post('api/user/check')
+        return res.data.success
       } catch (error) {
         console.dir(error)
         return false
