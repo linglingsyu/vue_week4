@@ -2,10 +2,7 @@ import { defineStore } from 'pinia'
 import { API } from '@/helper/api.js'
 const api_path = 'elsasyu'
 export default defineStore('loginStore', {
-  state: () => ({
-    // APILoading: false,
-    // counter: 1,
-  }),
+  state: () => ({}),
   getters: {},
   actions: {
     async login(data) {
@@ -14,7 +11,8 @@ export default defineStore('loginStore', {
         const res = await API.post('admin/signin', data)
         const { token, expired } = res.data
         await this.setCookie(token, expired)
-        this.$router.push({ name: 'Home' })
+        location.href = '/vue_week4/product'
+        // this.$router.push({ name: 'Home' })
       } catch (error) {
         alert('登入失敗')
         console.dir(error)
