@@ -10,7 +10,7 @@ export default defineStore('loginStore', {
   actions: {
     async login(data) {
       try {
-        console.log(data)
+        // console.log(data)
         const res = await API.post('admin/signin', data)
         const { token, expired } = res.data
         await this.setCookie(token, expired)
